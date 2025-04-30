@@ -5,10 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Setting extends Model
+class Group extends Model
 {
-    protected $table = 'settings';
-    protected $fillable = [
-        'registration_enabled'
-    ];
+    use HasFactory;
 }

@@ -1,5 +1,6 @@
 import { defineStore } from 'pinia';
 import api from '../../api.js';
+import router from '../../router';
 
 export const useAuthStore = defineStore('auth', {
   state: () => ({
@@ -9,13 +10,21 @@ export const useAuthStore = defineStore('auth', {
   actions: {
     async login(credentials) {
       try {
-        await api.get('/sanctum/csrf-cookie') // CSRF protection
+        await api.get('/sanctum/csrf-cookie').then(() => {
+          // CSRF cookie set, you can now make API calls
+          console.log('CSRF token set');
+        })
+        .catch(error => {
+          console.error('Error fetching CSRF token:', error);
+        });
+        
         const response = await api.post('/api/auth/login', credentials)
 
         if(response.status === 200) {
           this.token = response.data.accessToken
           api.defaults.headers.common["Authorization"] = `Bearer ${this.token}`
           await this.fetchUser()
+          router.push({path: '/dashboard'})
         }
 
         return response
@@ -37,7 +46,7 @@ export const useAuthStore = defineStore('auth', {
 
     async fetchUser() {
       try {
-        const response = await api.get('/api/auth/user')
+        const response = await api.get('/api/user', { withCredentials: true })
         this.user = response.data
       } catch (err) {
         this.user = null
@@ -46,12 +55,13 @@ export const useAuthStore = defineStore('auth', {
     },
 
     async logout() {
-      await api.post('/logout')
+      await api.post('/api/auth/logout')
       this.user = null
       this.token = null
 
       // Remove token from Axios
-      delete axios.defaults.headers.common["Authorization"]
+      delete api.defaults.headers.common["Authorization"]
+      router.push({ path: '/'})
     },
   },
 });

@@ -60,6 +60,7 @@
 
 <script setup>
 import { useSettingsStore } from '../../stores/settings/settings';
+import { useAuthStore } from '../../stores/auth/auth'
 
 const settingsStore = useSettingsStore();
 const authStore = useAuthStore();
@@ -86,9 +87,9 @@ function loginUser() {
   }).then(response => {
     data.requestProcessing = false
     
-    data.validationErrors = response.status === 422 ? response?.data?.errors : null
-    data.loginError = response.status === 401 ? response?.data?.message : null
-    data.registrationResult = response.status === 201 ? response?.data?.message : null
+    data.validationErrors = response?.status    === 422 ? response?.data?.errors : null
+    data.loginError = response?.status          === 401 ? response?.data?.message : null
+    data.registrationResult = response?.status  === 201 ? response?.data?.message : null
   })
 }
 
@@ -100,7 +101,6 @@ function togglePassword() {
 
 <script>
 import { BButton, BForm, BFormGroup, BFormInput, BInputGroup, BInputGroupText } from 'bootstrap-vue-next';
-import { useAuthStore } from '../../stores/auth/auth'
 import { reactive } from 'vue';
 
 export default {

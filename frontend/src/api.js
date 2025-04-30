@@ -9,4 +9,7 @@ const api = axios.create({
   },
 });
 
+api.defaults.baseURL = 'http://localhost:8000';  // Backend URL
+api.defaults.withCredentials = true;  // Crucial for sending cookies
+
 export default api;

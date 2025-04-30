@@ -10,12 +10,13 @@ import { onMounted, reactive } from 'vue';
 import { useSettingsStore } from './stores/settings/settings';
     
 const settingsStore = useSettingsStore();
+
 const appSetup = reactive({
   appLoading: true
 })
 
 onMounted(async () => {
-  await settingsStore.getApplicationSettings()
+  //await settingsStore.getApplicationSettings()
   appSetup.appLoading = false
 })
 

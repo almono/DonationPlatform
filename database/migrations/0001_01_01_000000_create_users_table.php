@@ -11,6 +11,13 @@ return new class extends Migration
      */
     public function up(): void
     {
+        // Groups defining user access
+        Schema::create('groups', function (Blueprint $table) {
+            $table->id();
+            $table->string('name')->length(200);
+            $table->timestamps();
+        });
+
         Schema::create('users', function (Blueprint $table) {
             $table->id();
             $table->string('username')->unique();
@@ -19,6 +26,8 @@ return new class extends Migration
             $table->string('email')->unique();
             $table->timestamp('email_verified_at')->nullable();
             $table->enum('role', ['Admin', 'User'])->default('User');
+            $table->unsignedBigInteger('group_id')->nullable();
+            $table->foreign('group_id')->references('id')->on('groups');
             $table->string('phone', 20);
             $table->string('password');
             $table->rememberToken();
@@ -49,5 +58,6 @@ return new class extends Migration
         Schema::dropIfExists('users');
         Schema::dropIfExists('password_reset_tokens');
         Schema::dropIfExists('sessions');
+        Schema::dropIfExists('groups');
     }
 };
