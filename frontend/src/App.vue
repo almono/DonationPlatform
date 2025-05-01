@@ -16,7 +16,7 @@ const appSetup = reactive({
 })
 
 onMounted(async () => {
-  //await settingsStore.getApplicationSettings()
+  await settingsStore.getApplicationSettings()
   appSetup.appLoading = false
 })
 

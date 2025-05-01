@@ -13,6 +13,16 @@ export const useSettingsStore = defineStore('settings', {
       } catch (error) {
         console.error('Failed to load settings: ', error)
       }
+    },
+    toggleRegistration(value) {
+      this.settings.registration_enabled = value ? 1 : 0; // Convert to 1 (enabled) or 0 (disabled)
+    },
+    async updateApplicationSettings() {
+      try {
+        await api.put('/api/settings', this.settings)
+      } catch (error) {
+        console.error('Failed to load settings: ', error)
+      }
     }
   }
 })

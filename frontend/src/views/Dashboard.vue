@@ -56,6 +56,9 @@
                 <hr class="campaign-line" />
                 <BButton class="donate-btn" pill variant="success" @click="openNewCampaignModal">Create New Campaign</BButton>
                 <hr class="campaign-line" />
+                <template v-if="authStore?.user?.role === 'Admin'">
+                  <BFormCheckbox switch size="lg" v-model="registrationEnabled" :value="1" :unchecked-value="0" @change="updateApplicationSetting()">Registration Enabled</BFormCheckbox>
+                </template>
               </div>
             </div>
           </div>
@@ -86,7 +89,8 @@
 </template>
 
 <script setup>
-import { onMounted, ref, reactive } from 'vue';
+import { onMounted, ref, reactive, computed } from 'vue';
+import { useSettingsStore } from '../stores/settings/settings';
 import { useAuthStore } from '../stores/auth/auth';
 import { useCampaignsStore } from '../stores/campaigns/campaigns';
 import { useDonationsStore } from '../stores/donations/donations';
@@ -100,6 +104,7 @@ const authStore = useAuthStore()
 const campaignsStore = useCampaignsStore()
 const donationsStore = useDonationsStore()
 const groupStore = useGroupsStore()
+const settingsStore = useSettingsStore()
 
 const isDonationModalOpen = ref(false)
 const isNewCampaignModalOpen = ref(false)
@@ -116,6 +121,11 @@ onMounted(async () => {
   await campaignsStore.getCampaignsList()
   data.loadingCampaigns = false
   await groupStore.getGroups()
+})
+
+const registrationEnabled = computed({
+  get: () => settingsStore.settings.registration_enabled === 1, // Convert 1 to true and 0 to false
+  set: (value) => settingsStore.toggleRegistration(value ? 1 : 0), // Convert true to 1 and false to 0
 })
 
 function openDonationModal(campaign) {
@@ -174,6 +184,10 @@ async function deleteCampaign(campaign) {
 
 async function logout() {
   await authStore.logout()
+}
+
+async function updateApplicationSetting() {
+  await settingsStore.updateApplicationSettings()
 }
 
 </script>

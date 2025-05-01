@@ -4,11 +4,14 @@ namespace App\Http\Controllers;
 
 use App\Models\Campaign;
 use App\Services\CampaignsService;
+use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 
 class CampaignController extends Controller
 {
+    use AuthorizesRequests;
+
     public function __construct(
         private CampaignsService $campaignsService
     ) {}
@@ -27,13 +30,17 @@ class CampaignController extends Controller
      */
     public function store(Request $request)
     {
+        if (!$request->user()->can('create', Campaign::class)) {
+            abort(403, 'Unauthorized');
+        }
+
         $validated = $request->validate([
             'name' => 'required|string|min:3|max:200',
             'description' => 'required|string|min:3|max:200'
         ]);
 
         $newCampaign = $this->campaignsService->createCampaign($validated);
-        return response()->json($newCampaign, empty($newCampaign) ? Response::HTTP_NO_CONTENT : Response::HTTP_OK);
+        return response()->json($newCampaign, Response::HTTP_CREATED);
     }
 
     /**
@@ -49,6 +56,10 @@ class CampaignController extends Controller
      */
     public function update(Request $request, Campaign $campaign)
     {
+        if (!$request->user()->can('update', $campaign)) {
+            abort(403, 'Unauthorized');
+        }
+
         $validated = $request->validate([
             'name'          => 'required|string|max:200',
             'description'   => 'nullable|string|max:200',
@@ -69,8 +80,10 @@ class CampaignController extends Controller
      */
     public function destroy(Campaign $campaign)
     {
-        $deletedCampaign = $this->campaignsService->deleteCampaign($campaign);
-        return response()->json(['message' => 'Campaign deleted successfully.'], Response::HTTP_OK);
+        $this->authorize('delete', $campaign);
+
+        $this->campaignsService->deleteCampaign($campaign);
+        return response()->json(['message' => 'Campaign deleted successfully.'], Response::HTTP_NO_CONTENT);
 
     }
 }

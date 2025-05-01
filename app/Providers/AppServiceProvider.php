@@ -2,23 +2,19 @@
 
 namespace App\Providers;
 
+use App\Models\Campaign;
+use App\Policies\CampaignPolicy;
+use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
 {
-    /**
-     * Register any application services.
-     */
-    public function register(): void
-    {
-        //
-    }
+    /*protected $policies = [
+        Campaign::class => CampaignPolicy::class,
+    ]; */
 
-    /**
-     * Bootstrap any application services.
-     */
-    public function boot(): void
+    public function boot()
     {
-        //
+        Gate::policy(Campaign::class, CampaignPolicy::class);
     }
 }

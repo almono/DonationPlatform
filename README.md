@@ -7,6 +7,7 @@ To build the project:
 - In the main directory run ```docker compose build --no-cache``` and after it has finished building ```docker compose up -d```
 - Inside the php container make sure you run the laravel migrations ```php artisan migrate``` ( ```php artisan migrate:install``` in case the previous did not work )
 - After that generate APP token with ```php artisan key:generate``` and ```php artisan jwt:secret``` ( might require config clear with ```php artisan config:clear``` )
+- As the final step please run ```php artisan db:seed``` to seed database with example data
 
 Your project should be available under these URLs:
 - Frontend http://localhost:5137 ( this is the URL that should be used )
@@ -25,6 +26,12 @@ Your project should be available under these URLs:
 - Mailpit
 - Basic authentication ( with user login and registration )
 - Swagger UI ( to update Swagger endpoints use ```php artisan l5-swagger:generate``` in the main directory )
+
+## Information
+
+- Admin user credentials: admin@admin.admin / admin
+- Normal user credentials: user@user.user / user
+- User assigned to a group credentials: group@group.group / user
 
 
 ## Environment Variables

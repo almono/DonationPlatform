@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Setting;
 use App\Services\SettingsService;
 
 use Illuminate\Http\JsonResponse;
@@ -42,8 +43,17 @@ class SettingsController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(Request $request, Setting $setting)
     {
-        //
+        $validated = $request->validate([
+            'registration_enabled' => 'required'
+        ]);
+
+        $updatedSettings = $this->settingsService->updateApplicationSettings($validated);
+
+        return response()->json([
+            'message' => 'Setting updated successfully',
+            'data' => $updatedSettings
+        ], empty($updatedSettings) ? Response::HTTP_OK : Response::HTTP_BAD_REQUEST);
     }
 }
