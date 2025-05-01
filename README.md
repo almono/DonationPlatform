@@ -6,6 +6,7 @@ To build the project:
 - In the frontend directory run ```npm install```
 - In the main directory run ```docker compose build --no-cache``` and after it has finished building ```docker compose up -d```
 - Inside the php container make sure you run the laravel migrations ```php artisan migrate``` ( ```php artisan migrate:install``` in case the previous did not work )
+    - In case you receive "The SQLite database configured for this application does not exist: database/database.sqlite" select "YES" 
 - After that generate APP token with ```php artisan key:generate``` and ```php artisan jwt:secret``` ( might require config clear with ```php artisan config:clear``` )
 - As the final step please run ```php artisan db:seed``` to seed database with example data
 
