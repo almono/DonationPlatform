@@ -19,7 +19,7 @@ Your project should be available under these URLs:
 - PHPMyAdmin http://localhost:8080 ( user and password are both "laravel" )
 
 
-## Features
+# Features
 
 - PHP 8.4
 - Vue.js ( version 3 )
@@ -29,14 +29,14 @@ Your project should be available under these URLs:
 - Basic authentication ( with user login and registration )
 - Swagger UI ( to update Swagger endpoints use ```php artisan l5-swagger:generate``` in the main directory )
 
-## Information
+# Information
 
 - Admin user credentials: admin@admin.admin / admin
 - Normal user credentials: user@user.user / user
 - User assigned to a group credentials: group@group.group / user
 
 
-## Environment Variables
+# Environment Variables
 
 To run this project, you will need to add/update the following environment variables to your .env file
 
@@ -67,8 +67,20 @@ JWT:
 JWT_SECRET=XXX
 ```
 
-## Application Screenshots
+# Application Screenshots
 
-# Login Screen
+## Login Screen
 ![image](https://github.com/user-attachments/assets/1fbfb026-ff62-42e1-9788-e19a60f6e1ea)
+
+## Admin Dashboard View
+![image](https://github.com/user-attachments/assets/c26e77c7-7804-4e28-8752-84152f974711)
+
+## Basic User View
+![image](https://github.com/user-attachments/assets/e3695172-784e-4339-852e-d3c3ad200ef5)
+
+## Donation Email ( taken from Mailpit )
+![image](https://github.com/user-attachments/assets/e6aec0dd-9af6-43c9-94e9-c3d5cfd6ee3f)
+
+## Test Results
+![image](https://github.com/user-attachments/assets/e6992d5c-97a3-4980-9229-21a4db283948)
 
