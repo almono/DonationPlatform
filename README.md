@@ -9,6 +9,8 @@ To build the project:
 - After that generate APP token with ```php artisan key:generate``` and ```php artisan jwt:secret``` ( might require config clear with ```php artisan config:clear``` )
 - As the final step please run ```php artisan db:seed``` to seed database with example data
 
+- To run the functional tests run ```./vendor/bin/pest tests/Feature/CampaignControllerTest.php``` inside php container
+
 Your project should be available under these URLs:
 - Frontend http://localhost:5137 ( this is the URL that should be used )
 - Laravel http://localhost:8000
@@ -64,3 +66,9 @@ JWT:
 ```
 JWT_SECRET=XXX
 ```
+
+## Application Screenshots
+
+# Login Screen
+![image](https://github.com/user-attachments/assets/1fbfb026-ff62-42e1-9788-e19a60f6e1ea)
+
